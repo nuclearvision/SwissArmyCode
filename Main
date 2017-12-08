@@ -1,0 +1,281 @@
+// SwissArmyCode.cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"
+#include<iostream>
+#include<fstream>
+#include<iomanip>
+using namespace std;
+
+// Geometry Class
+class Geometry {
+	double width, height, base,  radius;
+public:
+	void rect_set_values(double, double);
+	void tri_set_values(double, double);
+	void circ_set_values(double);
+	double rect_area() { return width * height; }
+	double tri_area() { return base/2 * height; }
+	double circ_area() {return 3.14159*pow(radius, 2);}
+
+};
+// Cellular Automaton Class
+class CA {
+	int seed1, seed2, seed3, seed4, seed5, seed6, seed7;
+	int x_last_left, x_last_mid, x_last_right, x_new;
+	int rem, dummy, dec, bin, base;
+public:
+	void set_seed(int, int, int, int, int, int, int);
+	void set_x_last(int, int, int);
+	void BinNum(int);
+	
+	// define rule 30 behavior for each triplet in previous line
+	//  Rule 30 dictates that each new number will be generated as follows
+	//  111  110  101  100  011  010  001  000
+	//   |    |    |    |    |    |    |    |
+	//   0    0    0    1    1    1    1    0
+	int rthirty() {
+		if ((x_last_left == 0 && x_last_mid == 0 && x_last_right == 1) ||
+			(x_last_left == 0 && x_last_mid == 1 && x_last_right == 0) ||
+			(x_last_left == 0 && x_last_mid == 1 && x_last_right == 1) ||
+			(x_last_left == 1 && x_last_mid == 0 && x_last_right == 0))
+		{
+			return 1;
+		}
+		else
+		{
+			return 0;
+		}
+
+	}
+	
+	
+
+};
+
+
+// CA functions
+//Function to evaluate the set the relevant values for rthirty()
+
+void CA::set_x_last(int x, int y, int z) {
+	x_last_left = x;
+	x_last_mid = y;
+	x_last_right = z;
+
+}
+// convert CA line to decimal 
+void CA::BinNum(int bin) {
+	dummy = bin;
+	dec = 0;
+	base = 1;
+	while (dummy > 0) {
+		rem = dummy % 10;
+		dec = dec + rem * base;
+		base = base * 2;
+		dummy = dummy / 10;
+	}
+	cout <<setfill('0')<<setw(7)<<bin <<" = "<< dec << endl;
+}
+
+
+
+// Geometry functions
+void Geometry::rect_set_values(double x, double y) {
+	width = x;
+	height = y;
+	}
+void Geometry::tri_set_values(double x, double y) {
+	base = x;
+	height = y;
+}
+void Geometry::circ_set_values(double r) {
+	radius = r;
+}
+
+
+
+int main()
+
+{
+	int selection, ShapeSel;
+	double length, height, radius, base;
+// Menu
+	cout << "1) Geometry              " << endl;
+	cout << "2) CA Plotter            " << endl;
+	cout << "3) MadLib                " << endl;
+	cout << "4) Find Primes           " << endl;
+	cout << "5) Calculator            " << endl;
+	cout << "========================="<<endl;
+		cout << "Please Make A Selection:";
+	cin>> selection;
+
+// handle out-of-range selections
+	if (selection < 1 || selection > 5) {
+		
+		bool SelCrit = false;
+		while (SelCrit == false){
+			cout << "Selection invalid, try again";
+			cin >> selection;
+			if (selection >0 && selection < 6) SelCrit = true;
+		}
+	}
+	
+	if (selection == 1) {
+		
+		cout << "1) Rectangle Area" << endl;
+		cout << "2) Triangle Area " << endl;
+		cout << "3) Circle Area   " << endl;
+		cout << "Please select shape:";
+		cin >> ShapeSel;
+// Rectangle area block
+		if (ShapeSel == 1) {
+			Geometry rect;
+			cout << "Enter Length: ";
+			cin >> length;
+			cout << "Enter Height: ";
+			cin >> height;
+			rect.rect_set_values(length, height);
+			cout << "This rectangle has an area of: " << rect.rect_area();
+			cin.get();
+			
+		}
+// Triangle area block
+		if (ShapeSel == 2) {
+			Geometry tri;
+			cout << "Enter Base: ";
+			cin >> base;
+			cout << "Enter Height: ";
+			cin >> height;
+			tri.tri_set_values(base, height);
+			cout << "This triangle has an area of: " << tri.tri_area();
+			cin.get();
+
+		}
+// Circle area block
+		if (ShapeSel == 3) {
+			Geometry circ;
+			cout << "Enter radius: ";
+			cin >> radius;
+			circ.circ_set_values(radius);
+			cout << "This triangle has an area of: " << circ.circ_area();
+			cin.get();
+
+		}
+	}
+// Cellular Automaton plotter
+	else if (selection == 2) {
+		
+		
+		CA cel;
+		int a, b, c, d, e, f, g, n;
+		int ap, bp, cp, dp, ep, fp, gp;
+		int bin[1000];
+		int binNum;
+		cout << "Please enter the 7-binary-digit seed: ";
+		cin >> binNum;
+		cout << "Enter number of iterations: ";
+		cin >> n;
+// Separate the digits of the seed
+		bin[0] = binNum;
+		g = binNum % 10;
+		binNum /= 10;
+		f = binNum % 10;
+		binNum /= 10;
+		e = binNum % 10;
+		binNum /= 10;
+		d = binNum % 10;
+		binNum /= 10;
+		c = binNum % 10;
+		binNum /= 10;
+		b = binNum % 10;
+		binNum /= 10;
+		a = binNum % 10;
+		binNum /= 10;
+		
+		
+		
+		
+// print the first line by digit 
+// setfill and setw fill out line if there are leading zeroes 
+
+		cout << setfill('0') << setw(7) << bin[0]<<endl;
+		//cout <<a<<b<<c<<d<<e<<f<<g<<endl;
+
+		for (int i = 1; i < n; i++) {
+			cel.set_x_last(0, a, b);
+			ap = cel.rthirty();
+			cout << cel.rthirty();
+			cel.set_x_last(a, b, c);
+			bp = cel.rthirty();
+			cout << cel.rthirty();
+			cel.set_x_last(b, c, d);
+			cp = cel.rthirty();
+			cout << cel.rthirty();
+			cel.set_x_last(c, d, e);
+			dp = cel.rthirty();
+			cout << cel.rthirty();
+			cel.set_x_last(d, e, f);
+			ep = cel.rthirty();
+			cout << cel.rthirty();
+			cel.set_x_last(e, f, g);
+			fp = cel.rthirty();
+			cout << cel.rthirty();
+			cel.set_x_last(f, g, 0);
+			gp = cel.rthirty();
+			cout << cel.rthirty() << endl;
+		 // reassign values calculated by rthirty as the seed for the next row
+			a = ap;
+			b = bp;
+			c = cp;
+			d = dp;
+			e = ep;
+			f = fp;
+			g = gp;
+			int app = a * 1000000;
+			int bpp = b * 100000;
+			int cpp = c * 10000;
+			int dpp = d * 1000;
+			int epp = e * 100;
+			int fpp = f * 10;
+			int gpp = g;
+			bin[i] = app + bpp + cpp + dpp + epp + fpp + gpp;
+		}
+		cout << "See result in decimal? (y/n)";
+		
+		char Choice;
+		cin >> Choice;
+		if (Choice == 'y') {
+			for (int i = 0; i < n; i++) {
+				cel.BinNum(bin[i]);
+
+
+			}
+			
+		}
+		else {
+
+		}
+
+
+
+		
+
+
+
+
+
+
+
+
+
+
+	}
+	
+
+
+	
+
+	return 0;
+
+}
+
