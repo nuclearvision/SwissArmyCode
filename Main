@@ -66,6 +66,24 @@ public:
 	void OriginalStory();
 
 };
+class Fibs {
+	int F[2][2], M[2][2];
+public:
+	void mult(int[2][2], int[2][2]);
+	void mPow(int[2][2], int);
+
+	int fibs(int n)
+	{
+		int F[2][2] = { { 1,1 },{ 1,0 } };
+		if (n == 0)
+			return 0;
+		mPow(F, n - 1);
+		return F[0][0];
+	}
+
+};
+
+
 
 // CA functions
 //Function to evaluate the set the relevant values for rthirty()
@@ -111,20 +129,46 @@ void MadLib::GetLib(std::string FName, std::string LName,
 	std::string noun1, std::string adj2, std::string plnoun1,
 	std::string adj3, std::string adj4, std::string adj5, std::string noun2,
 	std::string noun3, std::string Place1, std::string Place2, std::string Place3, std::string Place4, int LOT) {
-	cout << FName << " " << LName << "  is a " << EngT << " Engineer who has been" << endl;
-	cout << "coding in " << ProgL << " for approximately " << LOT << " years. Before" << endl;
-	cout << "	discovering that he enjoyed writing " << adj1 << " code, " << FName << " underwent classical " << endl;
-	cout << noun1 << " training during his senior year in high school as well as for three " << endl;
-	cout << " years in college. One " << adj2 << " night, " << FName << " and his " << plnoun1 << endl;
-	cout << " were visiting the “free section” at a " << adj3 << " book store in " << Place1 << " " << Place2 << endl;
-	cout << " where he discovered an " << adj4 << "  , " << adj5 << " " << noun2 << "  book which he used" << endl;
-	cout << "to teach himself " << noun2 << " .Adam enjoyed learning " << noun2 << " so much that he" << endl;
-	cout << " dropped out of " << noun1 << " school in order to pursue " << noun3 << " at the University of " << endl;
+	cout << FName << " " << LName << "  is a " << EngT << " Engineer who has been" ;
+	cout << "coding in " << ProgL << " for approximately " << LOT << " years. Before" ;
+	cout << "	discovering that he enjoyed writing " << adj1 << " code, " << FName << " underwent classical " ;
+	cout << noun1 << " training during his senior year in high school as well as for three " ;
+	cout << " years in college. One " << adj2 << " night, " << FName << " and his " << plnoun1 ;
+	cout << " were visiting the “free section” at a " << adj3 << " book store in " << Place1 << " " << Place2 ;
+	cout << " where he discovered an " << adj4 << "  , " << adj5 << " " << noun2 << "  book which he used" ;
+	cout << "to teach himself " << noun2 << " .Adam enjoyed learning " << noun2 << " so much that he" ;
+	cout << " dropped out of " << noun1 << " school in order to pursue " << noun3 << " at the University of ";
 	cout << Place3 << " at " << Place4<<"."<< endl;
 
 
 }
+// Fibbonacci Functions
+// Matrix multiplication for 2x2 matrices F and M
+void Fibs::mult(int F[2][2], int M[2][2]) {
+	int x = F[0][0] * M[0][0] + F[0][1] * M[1][0];
+	int y = F[0][0] * M[0][1] + F[0][1] * M[1][1];
+	int z = F[1][0] * M[0][0] + F[1][1] * M[1][0];
+	int w = F[1][0] * M[0][1] + F[1][1] * M[1][1];
+	
+	F[0][0] = x;
+	F[0][1] = y;
+	F[1][0] = z;
+	F[1][1] = w;
 
+}
+// Raise Matrix F to power n
+void Fibs::mPow(int F[2][2], int n)
+{
+	if (n == 0 || n == 1)
+		return;
+	int M[2][2] = { { 1,1 },{ 1,0 } };
+	Fibs fib;
+	fib.mPow(F, n / 2);
+	fib.mult(F, F);
+
+	if (n % 2 != 0)
+		fib.mult(F, M);
+}
 
 
 int main()
@@ -134,12 +178,12 @@ int main()
 	double length, height, radius, base;
 // Menu
 	label:
-	cout << "1) Geometry              " << endl;
-	cout << "2) CA Plotter            " << endl;
-	cout << "3) MadLib                " << endl;
-	cout << "4) Find Primes           " << endl;
-	cout << "5) Calculator            " << endl;
-	cout << "========================="<<endl;
+	cout << "1) Geometry                   " << endl;
+	cout << "2) CA Plotter                 " << endl;
+	cout << "3) MadLib                     " << endl;
+	cout << "4) Find nth Fibonacci number  " << endl;
+	cout << "5) Calculator                 " << endl;
+	cout << "=============================="<<endl;
 		cout << "Please Make A Selection:";
 	cin>> selection;
 
@@ -320,9 +364,9 @@ int main()
 		cin >> adj4;
 		cout << endl << "Last Adjective, I promise: ";
 		cin >> adj5;
-		cout << endl << "Another noun, please: ";
+		cout << endl << "A school subject, please: ";
 		cin >> noun2;
-		cout << endl << "One more noun, please: ";
+		cout << endl << "A college major, please: ";
 		cin >> noun3;
 		cout << endl << "Now I will ask you to give me 4 place names" << endl;
 		cout << "A City: ";
@@ -350,6 +394,35 @@ int main()
 
 
 	}
+	else if (selection == 4) {
+			int fibNum;
+			Fibs fib;
+			cout << " Which Fibonacci number would you like to see? ";
+			cin >> fibNum;
+			if (fibNum%10 == 1) {
+				cout << "The " << fibNum << "st Fibonacci number is " << fib.fibs(fibNum) << ".";
+			}else if(fibNum % 10 == 2) {
+				cout << "The " << fibNum << "nd Fibonacci number is " << fib.fibs(fibNum) << ".";
+			}else if (fibNum % 10 == 3) {
+				cout << "The " << fibNum << "rd Fibonacci number is " << fib.fibs(fibNum) << ".";
+			}else {
+				cout << "The " << fibNum << "th Fibonacci number is " << fib.fibs(fibNum) << ".";
+
+			}
+
+
+			
+			return 0;
+		
+			
+		
+
+
+
+
+
+	}
+
 	
 
 
