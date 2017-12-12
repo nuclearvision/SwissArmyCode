@@ -5,7 +5,12 @@
 #include<iostream>
 #include<fstream>
 #include <string>
+#include<sstream>
+#include<algorithm>
+#include<iterator>
 #include<iomanip>
+#include<istream>
+#include<math.h>
 using namespace std;
 
 // Geometry Class
@@ -30,11 +35,11 @@ public:
 	void set_x_last(int, int, int);
 	void BinNum(int);
 	
-	// define rule 30 behavior for each triplet in previous line
-	//  Rule 30 dictates that each new number will be generated as follows
-	//  111  110  101  100  011  010  001  000
-	//   |    |    |    |    |    |    |    |
-	//   0    0    0    1    1    1    1    0
+	/* define rule 30 behavior for each triplet in previous line
+	  Rule 30 dictates that each new number will be generated as follows
+	  111  110  101  100  011  010  001  000
+	   |    |    |    |    |    |    |    |
+	   0    0    0    1    1    1    1    0                               */
 	int rthirty() {
 		if ((x_last_left == 0 && x_last_mid == 0 && x_last_right == 1) ||
 			(x_last_left == 0 && x_last_mid == 1 && x_last_right == 0) ||
@@ -82,7 +87,51 @@ public:
 	}
 
 };
+class Calc {
+	double x, y;
+	std::string operation;
+public:
+	double BinOp(double x, double y, string operation) {
+		if (operation =="+") 	return x + y;
+		else if (operation == "-") return x - y;
+		else if (operation == "*") return x * y;
+		else if (operation == "/") {
+			if (y > 0 || y < 0) {
+				return x / y;
+			}
+			else {
+				cout << "Div by 0";
+			}
+		}
+		else {
+			cout << "Formula Not Valid";
+		}
+		
 
+	}
+	void opError(string operation) {
+		if (operation != "+" && operation != "-" && operation != "*" && operation != "/") {
+			throw invalid_argument("Invalid Operation");
+		}
+	};
+	void DivByZ(string operation, double num) {
+
+		if (num == 0 && operation == "/") {
+			throw invalid_argument("Divide by Zero");
+
+		}
+	}
+	void WhiteSpace(string formula) {
+
+		if (fabs(formula.find(" ", 0)) > 1000) {
+			throw invalid_argument("Invalid Format");
+		}
+
+	}
+
+
+
+};
 
 
 // CA functions
@@ -415,14 +464,75 @@ int main()
 			return 0;
 		
 			
+	}
+	
+	else if (selection == 5) {
+
+		std::string expression, s;
+		double num1, num2;
+		std::string OpSym, snum1, snum2;
+
+		CalcLab:
+	// Initialize the Calc object
+		Calc bin;
+		
+		cout << "Please enter a formula in the form a + b." <<endl<<"Operations available: +, -, *, / :";
+		cin.ignore();
+		getline(cin, s);
+		FormLab:// Goto Label for testing for proper formula spacing after incorrect input
+		try {
+			bin.WhiteSpace(s);// throw an exception if formula is improperly formatted
+		}
+		catch (invalid_argument& e) {
+			cerr << e.what() << endl;
+			cout << "Please ensure that there are spaces between numbers and operators (a + b) " << endl;
+			
+			getline(cin, s);
+			goto FormLab;
+
+		}
+		// splitting the input stream up into it's constituent parts
+		istringstream iss(s);
+		iss >> snum1;
+		iss >> OpSym;
+		iss >> snum2;
+		num1 = stod(snum1);
+		num2 = stod(snum2);
+		SymLab:// Goto Label for testing operator symbol after incorrect input
+		try {
+			bin.opError(OpSym);// throw an exception if invalid symbol is selected
+		}
+		catch (invalid_argument& f)// catch invalid symbol error
+		{
+			cerr << f.what() << endl;
+			cout << "Please enter a valid operation (+, -, *, /): ";
+			cin >> OpSym;		
+			goto SymLab;
+
+		}
+		
+	    DivLab: // Goto Label for testing DivByZero after incorrect input
+		try {
+			bin.DivByZ(OpSym, num2);// throw if div by zero
+		}
+		catch (invalid_argument& g)// catch div by zero error
+		{
+			cerr << g.what() << endl;
+			cout << "Please enter a valid denominator: ";
+			cin >> num2;
+			goto DivLab;
+				
+		}
+		
 		
 
+		
 
-
-
-
+		cout << num1 << OpSym << num2 << " = " << bin.BinOp(num1, num2, OpSym);
 	}
-
+		
+		
+	
 	
 
 
