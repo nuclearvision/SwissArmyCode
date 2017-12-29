@@ -95,17 +95,8 @@ public:
 		if (operation =="+") 	return x + y;
 		else if (operation == "-") return x - y;
 		else if (operation == "*") return x * y;
-		else if (operation == "/") {
-			if (y > 0 || y < 0) {
-				return x / y;
-			}
-			else {
-				cout << "Div by 0";
-			}
-		}
-		else {
-			cout << "Formula Not Valid";
-		}
+		else if (operation == "/") return x / y;
+
 		
 
 	}
