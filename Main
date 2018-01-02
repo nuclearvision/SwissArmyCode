@@ -46,9 +46,9 @@ public:
 
 	}
 	// Insertion Sort
-	void iSort(int array[], int length) {
+	void iSort(int array[], int n) {
 		int i, j, temp;
-		for (i = 1; i < length; i++) {
+		for (i = 1; i < n; i++) {
 			j = i;
 			while (j > 0 && array[j - 1] > array[j]) {
 				temp = array[j];
@@ -106,76 +106,6 @@ public:
 
 	}
 };
-
-class MadLib {
-	std::string FName, LName, EngT, ProgL, adj1, noun1, adj2, plnoun1;
-	std::string adj3, adj4, adj5, noun2, noun3, Place1, Place2, Place3, Place4;
-	int LOT; 
-public:
-	void GetLib(std::string, std::string, std::string, std::string,
-		std::string, std::string, std::string, std::string,
-		std::string, std::string, std::string, std::string,
-		std::string, std::string, std::string,std::string,
-		std::string, int);
-	void OriginalStory();
-
-};
-class Fibs {
-	int F[2][2], M[2][2];
-public:
-	void mult(int[2][2], int[2][2]);
-	void mPow(int[2][2], int);
-
-	int fibs(int n)
-	{
-		int F[2][2] = { { 1,1 },{ 1,0 } };
-		if (n == 0)
-			return 0;
-		mPow(F, n - 1);
-		return F[0][0];
-	}
-
-};
-class Calc {
-	double x, y;
-	std::string operation;
-public:
-	
-	double BinOp(double x, double y, string operation) {
-		if (operation =="+") 	return x + y;
-		else if (operation == "-") return x - y;
-		else if (operation == "*") return x * y;
-		else if (operation == "/") return x / y;
-		
-
-		
-
-	}
-	void opError(string operation) {
-		if (operation != "+" && operation != "-" && operation != "*" && operation != "/") {
-			throw invalid_argument("Invalid Operation");
-		}
-	};
-	void DivByZ(string operation, double num) {
-
-		if (num == 0 && operation == "/") {
-			throw invalid_argument("Divide by Zero");
-
-		}
-	}
-	void WhiteSpace(string formula) {
-
-		if (fabs(formula.find(" ", 0)) > 1000) {
-			throw invalid_argument("Invalid Format");
-		}
-
-	}
-
-
-
-};
-
-
 // CA functions
 //Function to evaluate the set the relevant values for rthirty()
 
@@ -196,30 +126,76 @@ void CA::BinNum(int bin) {
 		base = base * 2;
 		dummy = dummy / 10;
 	}
-	cout <<setfill('0')<<setw(7)<<bin <<" = "<< dec << endl;
+	cout << setfill('0') << setw(7) << bin << " = " << dec << endl;
 }
 
+class MadLib {
+	std::string FName, LName, EngT, ProgL, adj1, noun1, adj2, plnoun1;
+	std::string adj3, adj4, adj5, noun2, noun3, Place1, Place2, Place3, Place4;
+	int LOT; 
+public:
+	void GetLib(std::string, std::string, std::string, std::string,
+		std::string, std::string, std::string, std::string,
+		std::string, std::string, std::string, std::string,
+		std::string, std::string, std::string,std::string,
+		std::string, int);
+	void OriginalStory();
 
-
+};
 // MadLib Functions
 void MadLib::GetLib(std::string FName, std::string LName,
 	std::string EngT, std::string ProgL, std::string adj1,
 	std::string noun1, std::string adj2, std::string plnoun1,
 	std::string adj3, std::string adj4, std::string adj5, std::string noun2,
 	std::string noun3, std::string Place1, std::string Place2, std::string Place3, std::string Place4, int LOT) {
-	cout << FName << " " << LName << "  is a " << EngT << " Engineer who has been" ;
-	cout << "coding in " << ProgL << " for approximately " << LOT << " years. Before" ;
-	cout << "	discovering that he enjoyed writing " << adj1 << " code, " << FName << " underwent classical " ;
-	cout << noun1 << " training during his senior year in high school as well as for three " ;
-	cout << " years in college. One " << adj2 << " night, " << FName << " and his " << plnoun1 ;
-	cout << " were visiting the “free section” at a " << adj3 << " book store in " << Place1 << " " << Place2 ;
-	cout << " where he discovered an " << adj4 << "  , " << adj5 << " " << noun2 << "  book which he used" ;
-	cout << "to teach himself " << noun2 << " .Adam enjoyed learning " << noun2 << " so much that he" ;
+	cout << endl << FName << "  is ";
+	if (EngT.at(0) == 'a' || EngT.at(0) == 'e' || EngT.at(0) == 'i' || EngT.at(0) == 'o' || EngT.at(0) == 'u' ||
+		EngT.at(0) == 'A' || EngT.at(0) == 'E' || EngT.at(0) == 'I' || EngT.at(0) == 'O' || EngT.at(0) == 'U')
+		cout << " an ";
+	else cout << " a ";
+	cout << EngT << " Engineer who has been coding in " << ProgL << " for approximately " << LOT << " years. Before";
+	cout << " discovering that he enjoyed writing code, " << FName << " underwent classical " << noun1 << " training during ";
+	cout << "his senior year in high school as well as for three years in college. One " << adj2 << " night, " << FName;
+	cout << " and his " << plnoun1 << " were visiting the 'free section' at the " << adj3 << " book store in " << Place1;
+	cout << " where he discovered ";
+	if (adj4.at(0) == 'a' || adj4.at(0) == 'e' || adj4.at(0) == 'i' || adj4.at(0) == 'o' || adj4.at(0) == 'u' ||
+		adj4.at(0) == 'A' || adj4.at(0) == 'E' || adj4.at(0) == 'I' || adj4.at(0) == 'O' || adj4.at(0) == 'U')
+		cout << " an ";
+	else cout << " a ";
+	cout << adj4 << " " << noun2 << "  book which he used ";
+	cout << "to teach himself " << noun2 << ". Adam enjoyed learning " << noun2 << " so much that he";
 	cout << " dropped out of " << noun1 << " school in order to pursue " << noun3 << " at the University of ";
-	cout << Place3 << " at " << Place4<<"."<< endl;
-
+	cout << Place3 << " at " << Place4 << "." << endl;
 
 }
+void MadLib::OriginalStory() {
+	cout << "Adam is a Nuclear Engineer who has been coding in C++ for approximately";
+	cout << endl << "15 years. Before discovering that he enjoyed writing code, Adam underwent";
+	cout << endl << "classical theatre training during his senior hear in high school as well as";
+	cout << endl << "for three years in college. One fateful night, Adam and his friends were ";
+	cout << endl << "visiting the 'free section' at the used book store in Raleigh where he ";
+	cout << endl << "discovered a used calculus book which he used to teach himself calculus. ";
+	cout << endl << "Adam enjoyed learning calculus so much that he dropped out of Drama School";
+	cout << endl << "in order to pursue Physics at the University of North Carolina at Greensboro.";
+
+}
+
+class Fibs {
+	int F[2][2], M[2][2];
+public:
+	void mult(int[2][2], int[2][2]);
+	void mPow(int[2][2], int);
+
+	int fibs(int n)
+	{
+		int F[2][2] = { { 1,1 },{ 1,0 } };
+		if (n == 0)
+			return 0;
+		mPow(F, n - 1);
+		return F[0][0];
+	}
+
+};
 // Fibbonacci Functions
 // Matrix multiplication for 2x2 matrices F and M
 void Fibs::mult(int F[2][2], int M[2][2]) {
@@ -227,7 +203,7 @@ void Fibs::mult(int F[2][2], int M[2][2]) {
 	int y = F[0][0] * M[0][1] + F[0][1] * M[1][1];
 	int z = F[1][0] * M[0][0] + F[1][1] * M[1][0];
 	int w = F[1][0] * M[0][1] + F[1][1] * M[1][1];
-	
+
 	F[0][0] = x;
 	F[0][1] = y;
 	F[1][0] = z;
@@ -247,6 +223,52 @@ void Fibs::mPow(int F[2][2], int n)
 	if (n % 2 != 0)
 		fib.mult(F, M);
 }
+
+
+class Calc {
+	double x, y;
+	std::string operation;
+public:
+	
+	double BinOp(double x, double y, string operation) {
+		if (operation =="+") 	return x + y;
+		else if (operation == "-") return x - y;
+		else if (operation == "*") return x * y;
+		else if (operation == "/") return x / y;
+		}
+	
+	void opError(string operation) {
+		if (operation != "+" && operation != "-" && operation != "*" && operation != "/") {
+			throw invalid_argument("Invalid Operation");
+		}
+	}
+	
+	void DivByZ(string operation, double num) {
+
+		if (num == 0 && operation == "/") {
+			throw invalid_argument("Divide by Zero");
+
+		}
+	}
+	void WhiteSpace(string formula) {
+
+		if (fabs(formula.find(" ", 0)) > 1000) {
+			throw invalid_argument("Invalid Format");
+		}
+
+	}
+
+
+
+};
+
+
+
+
+
+
+
+
 
 
 int main()
@@ -278,17 +300,17 @@ int main()
 //Sorting Module
 	if (selection == 1) {
 		int n,array[1000];;
-		char Selection;
+		char Sel;
 		Sort SortIt;
 		
 		cout << "Length of Array: ";
 		cin >> n;
-		Selection = 'n';
-		// while loop for inapporpriate input. 
-		while (Selection != 'q' && Selection != 'i' && Selection != 's') {
+		Sel = 'n';
+		// while loop to handle inapporpriate input. 
+		while (Sel != 'q' && Sel != 'i' && Sel != 's') {
 			cout << "Sorting Method: QuickSort (q), Insertion Sort (i), or Selection Sort (s):";
-			cin >> Selection;
-			if (Selection != 'q' && Selection != 'i' && Selection != 's') cout << " Enter Valid Method!" << endl;
+			cin >> Sel;
+			if (Sel != 'q' && Sel != 'i' && Sel != 's') cout << " Enter Valid Method!" << endl;
 		}
 		
 	// Format Input Prompt
@@ -312,11 +334,11 @@ int main()
 		}
 	
 
-		if (Selection == 'q')
-			SortIt.qSort(array, 0, n);
-		else if (Selection == 'i')
+		if (Sel == 'q')
+			SortIt.qSort(array, 0, n-1);
+		else if (Sel == 'i')
 			SortIt.iSort(array, n);
-		else if (Selection == 's')
+		else if (Sel == 's')
 			SortIt.sSort(array, n);
 		else 
 		
@@ -429,56 +451,60 @@ int main()
 		std::string FName, LName, EngT, ProgL, adj1, noun1, adj2, plnoun1;
 		std::string adj3, adj4, adj5, noun2, noun3, Place1, Place2, Place3, Place4;
 		int LOT;
-		cout << "Please Enter a First Name: ";
-		cin >> FName;
-		cout << endl << "Please Enter a Surname: ";
-		cin >> LName;
-		cout << endl << "Please Enter an Engineering Discipline (i.e. Nuclear): ";
-		cin >> EngT;
-		cout << endl << "Please Enter the Name of a Programming Language: ";
-		cin >> ProgL;
-		cout << endl << "Please Enter an Adjective: ";
-		cin >> adj1;
-		cout<< endl << "Please Enter a Noun: ";
-		cin >> noun1;
-		cout << endl << "Please Enter another Adjective: ";
-		cin >> adj2;
-		cout << endl << "Please Enter a Plural Noun: ";
-		cin >> plnoun1;
-		cout << endl << "Please Enter Yet Another Adjective: ";
-		cin >> adj3;
-		cout << endl << "...and Another (adjective, that is): ";
-		cin >> adj4;
-		cout << endl << "Last Adjective, I promise: ";
-		cin >> adj5;
-		cout << endl << "A school subject, please: ";
-		cin >> noun2;
-		cout << endl << "A college major, please: ";
-		cin >> noun3;
-		cout << endl << "Now I will ask you to give me 4 place names" << endl;
-		cout << "A City: ";
-		cin >> Place1;
-		cout << endl << "A US State: ";
-		cin >> Place2;
-		cout << endl << "Another City: ";
-		cin >> Place3;
-		cout << endl << "And One More US State: ";
-		cin >> Place4;
-		cout << endl << "Finally, Please give me an integer";
-		cin >> LOT;
-
-		MadLib ml;
-		ml.GetLib(FName, LName, EngT, ProgL, adj1, noun1, adj2, plnoun1, adj3, adj4, adj5, noun2,
-			noun3, Place1, Place2, Place3, Place4, LOT);
+		char Sel;
+		Sel = '0';
+		// while loop to handle inappropriate input
+		while (Sel != '1' && Sel != '2') {
+			cout << "MadLib(1) or Original Story(2)? ";
+			cin >> Sel;
+		}
+		if (Sel == '1') {
 
 
+			cout << "Please Enter a First Name: ";
+			cin >> FName;
+			cout << endl << "Please Enter an Engineering Discipline (i.e. Nuclear): ";
+			cin >> EngT;
+			cout << endl << "Please Enter the Name of a Programming Language: ";
+			cin >> ProgL;
+			cout << endl << "Please Enter a Noun: ";
+			cin >> noun1;
+			cout << endl << "Please Enter an Adjective: ";
+			cin >> adj2;
+			cout << endl << "Please Enter a Plural Noun: ";
+			cin >> plnoun1;
+			cout << endl << "Please Enter Another Adjective: ";
+			cin >> adj3;
+			cout << endl << "...and Another (adjective, that is): ";
+			cin >> adj4;
+			cout << endl << "Last Adjective, I promise: ";
+			cin >> adj5;
+			cout << endl << "A school subject, please: ";
+			cin >> noun2;
+			cout << endl << "A college major, please: ";
+			cin >> noun3;
+			cout << endl << "Now I will ask you to give me 3 place names" << endl;
+			cout << "A City: ";
+			cin >> Place1;
+			cout << endl << "Another City: ";
+			cin >> Place3;
+			cout << endl << "And One More US State: ";
+			cin >> Place4;
+			cout << endl << "Finally, Please give me a long length of time (in years)";
+			cin >> LOT;
 
+			MadLib ml;
+			ml.GetLib(FName, LName, EngT, ProgL, adj1, noun1, adj2, plnoun1, adj3, adj4, adj5, noun2,
+				noun3, Place1, Place2, Place3, Place4, LOT);
+		}
+		if (Sel == '2') {
 
+			MadLib ml;
+			ml.OriginalStory();
 
+		}
 
-
-
-
+		
 
 	}
 	else if (selection == 4) {
