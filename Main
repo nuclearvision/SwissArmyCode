@@ -13,18 +13,69 @@
 #include<math.h>
 using namespace std;
 
-// Geometry Class
-class Geometry {
-	double width, height, base,  radius;
-public:
-	void rect_set_values(double, double);
-	void tri_set_values(double, double);
-	void circ_set_values(double);
-	double rect_area() { return width * height; }
-	double tri_area() { return base/2 * height; }
-	double circ_area() {return 3.14159*pow(radius, 2);}
+class Sort {
+	int left, right, array[1000], length;
 
+public:
+
+	//Quicksort
+	void qSort(int array[], int left, int right) {
+		int i = left, j = right;
+		int temp;
+		int pivot = array[(left + right) / 2];
+
+		// partition 
+		while (i <= j) {
+			while (array[i] < pivot)
+				i++;
+			while (array[j] > pivot)
+				j--;
+			if (i <= j) {
+				temp = array[i];
+				array[i] = array[j];
+				array[j] = temp;
+				i++;
+				j--;
+			}
+		};
+		// recursion 
+		if (left < j)
+			qSort(array, left, j);
+		if (i < right)
+			qSort(array, i, right);
+
+	}
+	// Insertion Sort
+	void iSort(int array[], int length) {
+		int i, j, temp;
+		for (i = 1; i < length; i++) {
+			j = i;
+			while (j > 0 && array[j - 1] > array[j]) {
+				temp = array[j];
+				array[j] = array[j - 1];
+				array[j - 1] = temp;
+				j--;
+			}
+		}
+	}
+	// Selection Sort
+	void sSort(int array[], int n) {
+		int i, j, minIndex, temp;
+		for (i = 0; i < n - 1; i++) {
+			minIndex = i;
+			for (j = i + 1; j < n; j++)
+				if (array[j] < array[minIndex])
+					minIndex = j;
+			if (minIndex != i) {
+				temp = array[i];
+				array[i] = array[minIndex];
+				array[minIndex] = temp;
+			}
+		}
+	}
 };
+
+
 // Cellular Automaton Class
 class CA {
 	int seed1, seed2, seed3, seed4, seed5, seed6, seed7;
@@ -54,10 +105,8 @@ public:
 		}
 
 	}
-	
-	
-
 };
+
 class MadLib {
 	std::string FName, LName, EngT, ProgL, adj1, noun1, adj2, plnoun1;
 	std::string adj3, adj4, adj5, noun2, noun3, Place1, Place2, Place3, Place4;
@@ -91,11 +140,13 @@ class Calc {
 	double x, y;
 	std::string operation;
 public:
+	
 	double BinOp(double x, double y, string operation) {
 		if (operation =="+") 	return x + y;
 		else if (operation == "-") return x - y;
 		else if (operation == "*") return x * y;
 		else if (operation == "/") return x / y;
+		
 
 		
 
@@ -149,19 +200,6 @@ void CA::BinNum(int bin) {
 }
 
 
-
-// Geometry functions
-void Geometry::rect_set_values(double x, double y) {
-	width = x;
-	height = y;
-	}
-void Geometry::tri_set_values(double x, double y) {
-	base = x;
-	height = y;
-}
-void Geometry::circ_set_values(double r) {
-	radius = r;
-}
 
 // MadLib Functions
 void MadLib::GetLib(std::string FName, std::string LName,
@@ -218,7 +256,7 @@ int main()
 	double length, height, radius, base;
 // Menu
 	label:
-	cout << "1) Geometry                   " << endl;
+	cout << "1) Array Sorting              " << endl;
 	cout << "2) CA Plotter                 " << endl;
 	cout << "3) MadLib                     " << endl;
 	cout << "4) Find nth Fibonacci number  " << endl;
@@ -237,48 +275,57 @@ int main()
 			if (selection >0 && selection < 6) SelCrit = true;
 		}
 	}
-//Geometry module
+//Sorting Module
 	if (selection == 1) {
+		int n,array[1000];;
+		char Selection;
+		Sort SortIt;
 		
-		cout << "1) Rectangle Area" << endl;
-		cout << "2) Triangle Area " << endl;
-		cout << "3) Circle Area   " << endl;
-		cout << "Please select shape:";
-		cin >> ShapeSel;
-		// Rectangle area block
-		if (ShapeSel == 1) {
-			Geometry rect;
-			cout << "Enter Length: ";
-			cin >> length;
-			cout << "Enter Height: ";
-			cin >> height;
-			rect.rect_set_values(length, height);
-			cout << "This rectangle has an area of: " << rect.rect_area();
-			cin.get();
-			
+		cout << "Length of Array: ";
+		cin >> n;
+		Selection = 'n';
+		// while loop for inapporpriate input. 
+		while (Selection != 'q' && Selection != 'i' && Selection != 's') {
+			cout << "Sorting Method: QuickSort (q), Insertion Sort (i), or Selection Sort (s):";
+			cin >> Selection;
+			if (Selection != 'q' && Selection != 'i' && Selection != 's') cout << " Enter Valid Method!" << endl;
 		}
-		// Triangle area block
-		if (ShapeSel == 2) {
-			Geometry tri;
-			cout << "Enter Base: ";
-			cin >> base;
-			cout << "Enter Height: ";
-			cin >> height;
-			tri.tri_set_values(base, height);
-			cout << "This triangle has an area of: " << tri.tri_area();
-			cin.get();
+		
+	// Format Input Prompt
+		for (int i=0; i < n; i++) {
 
+			if (i % 10 == 1) {
+				cout <<endl<< "Please enter " << i << "st element: ";
+				cin >> array[i];
+			}
+			else if (i % 10 == 2) {
+				cout << endl << "Please enter " << i << "nd element: ";
+				cin >> array[i];
+			}else if (i % 10 == 3) {
+				cout << endl << "Please enter " << i << "rd element: ";
+				cin >> array[i];
+			}
+			else {
+				cout << endl << "Please enter " << i << "th element: ";
+				cin >> array[i];
+			}
 		}
-		// Circle area block
-		if (ShapeSel == 3) {
-			Geometry circ;
-			cout << "Enter radius: ";
-			cin >> radius;
-			circ.circ_set_values(radius);
-			cout << "This triangle has an area of: " << circ.circ_area();
-			cin.get();
+	
 
-		}
+		if (Selection == 'q')
+			SortIt.qSort(array, 0, n);
+		else if (Selection == 'i')
+			SortIt.iSort(array, n);
+		else if (Selection == 's')
+			SortIt.sSort(array, n);
+		else 
+		
+
+		cout << "Sorted Array:" << endl;
+		for (int i = 0; i < n; i++)
+			cout << array[i] << endl;
+		
+	
 	}
 // Cellular Automaton Module
 	else if (selection == 2) {
