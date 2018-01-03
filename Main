@@ -1,5 +1,45 @@
-// SwissArmyCode.cpp : Defines the entry point for the console application.
-//
+/* SwissArmyCode.cpp - Code Sample Provided to ORNL as part of application to 
+ the Research Software Engineer position in the Computer Science and Mathematics 
+ Division.
+ 
+ This application has five modules:
+ 1) Cellular automata
+    Requests a 7-digit seed from std in and generates a 1-d cellular automaton
+	which is print to std out. The user is given the option to convert the rows
+	of the cellular automaton from binary to decimal. 
+ 
+ 2)Sort
+	Requests an array from std input and provides user the option of
+	sorting it by either quicksort, insertionsort or selectionsort.
+ 
+ 3) Mad Lib
+    From Wikipedia: A Mad Lib is a phrasal template word game where one player 
+	prompts others for a list of words to substitute for blanks in a story, 
+	before reading the – often comical or nonsensical – story aloud. 
+	The Mad Lib module included in this code sample is based on my conversion from 
+	Theater major to Physicist. 
+	
+ 4) Fibonacci Calculator
+	An optimized procedure for returning the nth fibonacci number, where n is 
+	supplied from std in.
+ 
+ 5) 4-function calculator
+    Your typical 4 - function calculator. Reads a formula from std in in the 
+	form of a + b and returns the result. Includes some modern error-handling 
+	techiniques for dealing with improperly formatted input.
+
+In general, input is taken from std cin so as to avoid the need for
+creation or distribution of input files. Similarly, a single-file
+approach to this project was taken to avoid distribution of header files;
+everything you need is right here in SwissArmyCode.cpp.
+
+Thank you for the opportunity to provide this code sample. I had fun writing it,
+and I look forward to the possibility of further discussions! 
+
+	-Adam 
+
+
+*/
 
 #include "stdafx.h"
 #include<iostream>
@@ -13,9 +53,65 @@
 #include<math.h>
 using namespace std;
 
-class Sort {
-	int left, right, array[1000], length;
+// Cellular Automaton Class
+class CA {
+	int seed1, seed2, seed3, seed4, seed5, seed6, seed7;
+	int x_last_left, x_last_mid, x_last_right, x_new;
+	int rem, dummy, dec, bin, base;
+public:
+	void set_seed(int, int, int, int, int, int, int);
+	void set_x_last(int, int, int);
+	void BinNum(int);
+	int rthirty();
+	/*
+	CA Rule 30 behavior for each triplet in previous line
+	current pattern       111 110 101 100 011 010 001 000
+	new state for center cell 	0 	0 	0 	1 	1 	1 	1 	0
+	*/
 
+};
+// CA functions
+
+// Function to set the relevant values for rthirty()
+void CA::set_x_last(int x, int y, int z) {
+	x_last_left = x;
+	x_last_mid = y;
+	x_last_right = z;
+
+}
+
+int CA::rthirty() {
+	//Function to evaluate the  relevant values according to rthirty()
+	if ((x_last_left == 0 && x_last_mid == 0 && x_last_right == 1) ||
+		(x_last_left == 0 && x_last_mid == 1 && x_last_right == 0) ||
+		(x_last_left == 0 && x_last_mid == 1 && x_last_right == 1) ||
+		(x_last_left == 1 && x_last_mid == 0 && x_last_right == 0))
+	{
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
+
+}
+
+// convert CA line to decimal 
+void CA::BinNum(int bin) {
+	dummy = bin;
+	dec = 0;
+	base = 1;
+	while (dummy > 0) {
+		rem = dummy % 10;
+		dec = dec + rem * base;
+		base = base * 2;
+		dummy = dummy / 10;
+	}
+	cout << setfill('0') << setw(7) << bin << " = " << dec << endl;
+}
+// Class for array sorting module
+class Sort {
+	
 public:
 
 	//Quicksort
@@ -76,63 +172,9 @@ public:
 };
 
 
-// Cellular Automaton Class
-class CA {
-	int seed1, seed2, seed3, seed4, seed5, seed6, seed7;
-	int x_last_left, x_last_mid, x_last_right, x_new;
-	int rem, dummy, dec, bin, base;
-public:
-	void set_seed(int, int, int, int, int, int, int);
-	void set_x_last(int, int, int);
-	void BinNum(int);
-	
-	/* define rule 30 behavior for each triplet in previous line
-	  Rule 30 dictates that each new number will be generated as follows
-	  111  110  101  100  011  010  001  000
-	   |    |    |    |    |    |    |    |
-	   0    0    0    1    1    1    1    0                               */
-	int rthirty() {
-		if ((x_last_left == 0 && x_last_mid == 0 && x_last_right == 1) ||
-			(x_last_left == 0 && x_last_mid == 1 && x_last_right == 0) ||
-			(x_last_left == 0 && x_last_mid == 1 && x_last_right == 1) ||
-			(x_last_left == 1 && x_last_mid == 0 && x_last_right == 0))
-		{
-			return 1;
-		}
-		else
-		{
-			return 0;
-		}
-
-	}
-};
-// CA functions
-//Function to evaluate the set the relevant values for rthirty()
-
-void CA::set_x_last(int x, int y, int z) {
-	x_last_left = x;
-	x_last_mid = y;
-	x_last_right = z;
-
-}
-// convert CA line to decimal 
-void CA::BinNum(int bin) {
-	dummy = bin;
-	dec = 0;
-	base = 1;
-	while (dummy > 0) {
-		rem = dummy % 10;
-		dec = dec + rem * base;
-		base = base * 2;
-		dummy = dummy / 10;
-	}
-	cout << setfill('0') << setw(7) << bin << " = " << dec << endl;
-}
-
+// class for MadLib module functions
 class MadLib {
-	std::string FName, LName, EngT, ProgL, adj1, noun1, adj2, plnoun1;
-	std::string adj3, adj4, adj5, noun2, noun3, Place1, Place2, Place3, Place4;
-	int LOT; 
+
 public:
 	void GetLib(std::string, std::string, std::string, std::string,
 		std::string, std::string, std::string, std::string,
@@ -165,7 +207,7 @@ void MadLib::GetLib(std::string FName, std::string LName,
 	cout << adj4 << " " << noun2 << "  book which he used ";
 	cout << "to teach himself " << noun2 << ". Adam enjoyed learning " << noun2 << " so much that he";
 	cout << " dropped out of " << noun1 << " school in order to pursue " << noun3 << " at the University of ";
-	cout << Place3 << " at " << Place4 << "." << endl;
+	cout << Place4 << " at " << Place3 << "." << endl;
 
 }
 void MadLib::OriginalStory() {
@@ -176,19 +218,20 @@ void MadLib::OriginalStory() {
 	cout << endl << "visiting the 'free section' at the used book store in Raleigh where he ";
 	cout << endl << "discovered a used calculus book which he used to teach himself calculus. ";
 	cout << endl << "Adam enjoyed learning calculus so much that he dropped out of Drama School";
-	cout << endl << "in order to pursue Physics at the University of North Carolina at Greensboro.";
+	cout << endl << "in order to pursue Physics at the University of North Carolina at Greensboro."<<endl;
 
 }
-
+// Class containing functions for Fibonacci calculations
+// again, long long ints are used to extend the domain of requestable Fibonacci numbers
 class Fibs {
-	int F[2][2], M[2][2];
+	long long int F[2][2], M[2][2];
 public:
-	void mult(int[2][2], int[2][2]);
-	void mPow(int[2][2], int);
+	void mult(long long int[2][2], long long int[2][2]);
+	void mPow(long long int[2][2], long long int);
 
-	int fibs(int n)
+	long long int fibs(long long int n)
 	{
-		int F[2][2] = { { 1,1 },{ 1,0 } };
+		long long int F[2][2] = { { 1,1 },{ 1,0 } };
 		if (n == 0)
 			return 0;
 		mPow(F, n - 1);
@@ -196,13 +239,14 @@ public:
 	}
 
 };
-// Fibbonacci Functions
-// Matrix multiplication for 2x2 matrices F and M
-void Fibs::mult(int F[2][2], int M[2][2]) {
-	int x = F[0][0] * M[0][0] + F[0][1] * M[1][0];
-	int y = F[0][0] * M[0][1] + F[0][1] * M[1][1];
-	int z = F[1][0] * M[0][0] + F[1][1] * M[1][0];
-	int w = F[1][0] * M[0][1] + F[1][1] * M[1][1];
+/* Fibonacci Functions
+ Matrix multiplication for 2x2 matrices F and M
+ use long long int to extend range of available Fibonacci numbers*/
+void Fibs::mult(long long int F[2][2], long long int M[2][2]) {
+	long long int x = F[0][0] * M[0][0] + F[0][1] * M[1][0];
+	long long int y = F[0][0] * M[0][1] + F[0][1] * M[1][1];
+	long long int z = F[1][0] * M[0][0] + F[1][1] * M[1][0];
+	long long int w = F[1][0] * M[0][1] + F[1][1] * M[1][1];
 
 	F[0][0] = x;
 	F[0][1] = y;
@@ -211,11 +255,11 @@ void Fibs::mult(int F[2][2], int M[2][2]) {
 
 }
 // Raise Matrix F to power n
-void Fibs::mPow(int F[2][2], int n)
+void Fibs::mPow(long long int F[2][2],  long long int n)
 {
 	if (n == 0 || n == 1)
 		return;
-	int M[2][2] = { { 1,1 },{ 1,0 } };
+	long long int M[2][2] = { { 1,1 },{ 1,0 } };
 	Fibs fib;
 	fib.mPow(F, n / 2);
 	fib.mult(F, F);
@@ -229,57 +273,60 @@ class Calc {
 	double x, y;
 	std::string operation;
 public:
-	
-	double BinOp(double x, double y, string operation) {
-		if (operation =="+") 	return x + y;
-		else if (operation == "-") return x - y;
-		else if (operation == "*") return x * y;
-		else if (operation == "/") return x / y;
-		}
-	
-	void opError(string operation) {
-		if (operation != "+" && operation != "-" && operation != "*" && operation != "/") {
-			throw invalid_argument("Invalid Operation");
-		}
-	}
-	
-	void DivByZ(string operation, double num) {
-
-		if (num == 0 && operation == "/") {
-			throw invalid_argument("Divide by Zero");
-
-		}
-	}
-	void WhiteSpace(string formula) {
-
-		if (fabs(formula.find(" ", 0)) > 1000) {
-			throw invalid_argument("Invalid Format");
-		}
-
-	}
-
-
-
+	double BinOp(double, double, string);
+	void opError(string);
+	void DivByZ(string, double);
+	void WhiteSpace(string);
 };
 
+// Calc member dunctions
+// function to perform the binary operation
+double Calc::BinOp(double x, double y, string operation) {
+	if (operation == "+") 	return x + y;
+	else if (operation == "-") return x - y;
+	else if (operation == "*") return x * y;
+	else if (operation == "/") return x / y;
+	else return 0;
+}
 
 
+// function to throw an exception if an invalid operation symbol is input
+void Calc::opError(string operation) {
+	if (operation != "+" && operation != "-" && operation != "*" && operation != "/") {
+		throw invalid_argument("Invalid Operation");
+	}
+}
 
+// function do throw an exception if a zero denominator is supplied
+void Calc::DivByZ(string operation, double num) {
 
+	if (num == 0 && operation == "/") {
+		throw invalid_argument("Divide by Zero");
 
+	}
+}
+// function to throw an exception if the input formula is not in the correct form
+void Calc::WhiteSpace(string formula) {
 
+	if (fabs(formula.find(" ", 0)) > 1000) {
+		throw invalid_argument("Invalid Format");
+	}
 
+}
+
+/* Main program follows*/
 
 
 int main()
 
 {
-	int selection, ShapeSel;
-	double length, height, radius, base;
+	char selection;
+	
 // Menu
 	label:
-	cout << "1) Array Sorting              " << endl;
-	cout << "2) CA Plotter                 " << endl;
+	cout << "==============================" << endl;
+	cout << "1) CA Plotter                 " << endl;
+	cout << "2) Array Sorting              " << endl;
 	cout << "3) MadLib                     " << endl;
 	cout << "4) Find nth Fibonacci number  " << endl;
 	cout << "5) Calculator                 " << endl;
@@ -288,42 +335,138 @@ int main()
 	cin>> selection;
 
 // handle out-of-range selections
-	if (selection < 1 || selection > 5) {
+	while (selection !='1' && selection != '2' && selection != '3'&& selection != '4'&& selection != '5') {
 		
-		bool SelCrit = false;
-		while (SelCrit == false){
 			cout << "Selection invalid, try again";
 			cin >> selection;
-			if (selection >0 && selection < 6) SelCrit = true;
 		}
+	
+
+	if (selection == '1') {
+		// Cellular Automaton Module	
+			CA cel;
+			int a, b, c, d, e, f, g, n;
+			int ap, bp, cp, dp, ep, fp, gp;
+			int bin[1000];
+			int binNum;
+			cout << "Please enter the 7-binary-digit seed (i.e. 0001000): ";
+			cin >> binNum;
+			cout << "Enter number of iterations: ";
+			cin >> n;
+			// Separate the digits of the seed
+			bin[0] = binNum;
+			g = binNum % 10;
+			binNum /= 10;
+			f = binNum % 10;
+			binNum /= 10;
+			e = binNum % 10;
+			binNum /= 10;
+			d = binNum % 10;
+			binNum /= 10;
+			c = binNum % 10;
+			binNum /= 10;
+			b = binNum % 10;
+			binNum /= 10;
+			a = binNum % 10;
+			binNum /= 10;
+
+			// print the first line by digit 
+			// setfill and setw fill out line if there are leading zeroes 
+
+			cout << setfill('0') << setw(7) << bin[0] << endl;
+			for (int i = 1; i < n; i++) {
+				// use set_x_last to update the relevant numbers from previous line
+				// use rthirty() to evaluate the set_x_last values according to Wolfram rule 30
+				cel.set_x_last(0, a, b);
+				ap = cel.rthirty();
+				cout << cel.rthirty();
+				cel.set_x_last(a, b, c);
+				bp = cel.rthirty();
+				cout << cel.rthirty();
+				cel.set_x_last(b, c, d);
+				cp = cel.rthirty();
+				cout << cel.rthirty();
+				cel.set_x_last(c, d, e);
+				dp = cel.rthirty();
+				cout << cel.rthirty();
+				cel.set_x_last(d, e, f);
+				ep = cel.rthirty();
+				cout << cel.rthirty();
+				cel.set_x_last(e, f, g);
+				fp = cel.rthirty();
+				cout << cel.rthirty();
+				cel.set_x_last(f, g, 0);
+				gp = cel.rthirty();
+				cout << cel.rthirty() << endl;
+				// reassign values calculated by rthirty as the seed for the next row
+				a = ap;
+				b = bp;
+				c = cp;
+				d = dp;
+				e = ep;
+				f = fp;
+				g = gp;
+				int app = a * 1000000;
+				int bpp = b * 100000;
+				int cpp = c * 10000;
+				int dpp = d * 1000;
+				int epp = e * 100;
+				int fpp = f * 10;
+				int gpp = g;
+				bin[i] = app + bpp + cpp + dpp + epp + fpp + gpp;
+			}
+			cout << "See result in decimal? (y/n)";
+
+			char Choice;
+			cin >> Choice;
+			if (Choice == 'y') {
+				for (int i = 0; i < n; i++) {
+					cel.BinNum(bin[i]);
+				}
+				cout << "Exit? (y/n) ";
+				cin >> Choice;
+				if (Choice == 'y') goto exitLab;
+				else goto label;
+			}
+			else {
+				cout << "Exit? (y/n) ";
+				cin >> Choice;
+				if (Choice == 'y') goto exitLab;
+				else goto label;
+			}
+	
 	}
-//Sorting Module
-	if (selection == 1) {
-		int n,array[1000];;
-		char Sel;
+
+	else if (selection == '2') {
+		// Sorting Module
+		int n, array[1000];
+		char Sel, Choice;
+
 		Sort SortIt;
-		
+
 		cout << "Length of Array: ";
 		cin >> n;
-		Sel = 'n';
+		cout << "Sorting Method: QuickSort (q), Insertion Sort (i), or Selection Sort (s):";
+		cin >> Sel;
 		// while loop to handle inapporpriate input. 
 		while (Sel != 'q' && Sel != 'i' && Sel != 's') {
 			cout << "Sorting Method: QuickSort (q), Insertion Sort (i), or Selection Sort (s):";
 			cin >> Sel;
 			if (Sel != 'q' && Sel != 'i' && Sel != 's') cout << " Enter Valid Method!" << endl;
 		}
-		
-	// Format Input Prompt
-		for (int i=0; i < n; i++) {
+
+		// Format Input Prompt  
+		for (int i = 0; i < n; i++) {
 
 			if (i % 10 == 1) {
-				cout <<endl<< "Please enter " << i << "st element: ";
+				cout << endl << "Please enter " << i << "st element: ";
 				cin >> array[i];
 			}
 			else if (i % 10 == 2) {
 				cout << endl << "Please enter " << i << "nd element: ";
 				cin >> array[i];
-			}else if (i % 10 == 3) {
+			}
+			else if (i % 10 == 3) {
 				cout << endl << "Please enter " << i << "rd element: ";
 				cin >> array[i];
 			}
@@ -332,126 +475,34 @@ int main()
 				cin >> array[i];
 			}
 		}
-	
+
 
 		if (Sel == 'q')
-			SortIt.qSort(array, 0, n-1);
+			SortIt.qSort(array, 0, n - 1);
 		else if (Sel == 'i')
 			SortIt.iSort(array, n);
 		else if (Sel == 's')
 			SortIt.sSort(array, n);
-		else 
 		
-
-		cout << "Sorted Array:" << endl;
+			cout << "Sorted Array:" << endl;
 		for (int i = 0; i < n; i++)
 			cout << array[i] << endl;
 		
-	
-	}
-// Cellular Automaton Module
-	else if (selection == 2) {
-		
-		
-		CA cel;
-		int a, b, c, d, e, f, g, n;
-		int ap, bp, cp, dp, ep, fp, gp;
-		int bin[1000];
-		int binNum;
-		cout << "Please enter the 7-binary-digit seed: ";
-		cin >> binNum;
-		cout << "Enter number of iterations: ";
-		cin >> n;
-		// Separate the digits of the seed
-		bin[0] = binNum;
-		g = binNum % 10;
-		binNum /= 10;
-		f = binNum % 10;
-		binNum /= 10;
-		e = binNum % 10;
-		binNum /= 10;
-		d = binNum % 10;
-		binNum /= 10;
-		c = binNum % 10;
-		binNum /= 10;
-		b = binNum % 10;
-		binNum /= 10;
-		a = binNum % 10;
-		binNum /= 10;
-		
-		
-		
-		
-		// print the first line by digit 
-		// setfill and setw fill out line if there are leading zeroes 
-
-		cout << setfill('0') << setw(7) << bin[0]<<endl;
-		for (int i = 1; i < n; i++) {
-			// use set_x_last to update the relevant numbers from previous line
-			// use rthirty() to evaluate the set_x_last values according to Wolfram rule 30
-			cel.set_x_last(0, a, b);
-			ap = cel.rthirty();
-			cout << cel.rthirty();
-			cel.set_x_last(a, b, c);
-			bp = cel.rthirty();
-			cout << cel.rthirty();
-			cel.set_x_last(b, c, d);
-			cp = cel.rthirty();
-			cout << cel.rthirty();
-			cel.set_x_last(c, d, e);
-			dp = cel.rthirty();
-			cout << cel.rthirty();
-			cel.set_x_last(d, e, f);
-			ep = cel.rthirty();
-			cout << cel.rthirty();
-			cel.set_x_last(e, f, g);
-			fp = cel.rthirty();
-			cout << cel.rthirty();
-			cel.set_x_last(f, g, 0);
-			gp = cel.rthirty();
-			cout << cel.rthirty() << endl;
-		 // reassign values calculated by rthirty as the seed for the next row
-			a = ap;
-			b = bp;
-			c = cp;
-			d = dp;
-			e = ep;
-			f = fp;
-			g = gp;
-			int app = a * 1000000;
-			int bpp = b * 100000;
-			int cpp = c * 10000;
-			int dpp = d * 1000;
-			int epp = e * 100;
-			int fpp = f * 10;
-			int gpp = g;
-			bin[i] = app + bpp + cpp + dpp + epp + fpp + gpp;
-		}
-		cout << "See result in decimal? (y/n)";
-		
-		char Choice;
+		cout << "Exit? (y/n) ";
 		cin >> Choice;
-		if (Choice == 'y') {
-			for (int i = 0; i < n; i++) {
-				cel.BinNum(bin[i]);
-			}
-			
-		}
-		else {
-			cout << "Exit? (y/n) ";
-			cin >> Choice;
-			if (Choice == 'y') goto exitLab;
-			else goto label;
-		}
-
+		if (Choice == 'y') goto exitLab;
+		else goto label;
+		
 	}
 
-//Mad Lib Module
-	else if (selection == 3) {
+
+	else if (selection == '3') {
+		//Mad Lib Module
 		std::string FName, LName, EngT, ProgL, adj1, noun1, adj2, plnoun1;
 		std::string adj3, adj4, adj5, noun2, noun3, Place1, Place2, Place3, Place4;
 		int LOT;
-		char Sel;
+		char Sel, Choice;
+		MadLib ml;
 		Sel = '0';
 		// while loop to handle inappropriate input
 		while (Sel != '1' && Sel != '2') {
@@ -467,7 +518,7 @@ int main()
 			cin >> EngT;
 			cout << endl << "Please Enter the Name of a Programming Language: ";
 			cin >> ProgL;
-			cout << endl << "Please Enter a Noun: ";
+			cout << endl << "Please Enter an Art Form: ";
 			cin >> noun1;
 			cout << endl << "Please Enter an Adjective: ";
 			cin >> adj2;
@@ -493,23 +544,28 @@ int main()
 			cout << endl << "Finally, Please give me a long length of time (in years)";
 			cin >> LOT;
 
-			MadLib ml;
+			
 			ml.GetLib(FName, LName, EngT, ProgL, adj1, noun1, adj2, plnoun1, adj3, adj4, adj5, noun2,
 				noun3, Place1, Place2, Place3, Place4, LOT);
 		}
 		if (Sel == '2') {
 
-			MadLib ml;
+			
 			ml.OriginalStory();
 
 		}
-
-		
-
+		cout << "Exit? (y/n) ";
+		cin >> Choice;
+		if (Choice == 'y') goto exitLab;
+		else goto label;
 	}
-	else if (selection == 4) {
-			int fibNum;
+	
+	else if (selection == '4') {
+		// Fibonacci Module
+			long long int fibNum;
+			char Choice;
 			Fibs fib;
+
 			cout << " Which Fibonacci number would you like to see? ";
 			cin >> fibNum;
 			if (fibNum%10 == 1) {
@@ -522,21 +578,22 @@ int main()
 				cout << "The " << fibNum << "th Fibonacci number is " << fib.fibs(fibNum) << ".";
 
 			}
-
-
 			
-			return 0;
-		
+			cout << "Exit? (y/n) ";
+			cin >> Choice;
+			if (Choice == 'y') goto exitLab;
+			else goto label;
 			
 	}
 	
-	else if (selection == 5) {
-
+	else if (selection == '5') {
+		// Calculator Module
 		std::string expression, s;
 		double num1, num2;
 		std::string OpSym, snum1, snum2;
+		char Choice;
 
-		CalcLab:
+		
 	// Initialize the Calc object
 		Calc bin;
 		
@@ -588,19 +645,14 @@ int main()
 				
 		}
 		
-		
-
-		
-
 		cout << num1 << OpSym << num2 << " = " << bin.BinOp(num1, num2, OpSym);
+		cout << "Exit? (y/n) ";
+		cin >> Choice;
+		if (Choice == 'y') goto exitLab;
+		else goto label;
+	
 	}
 		
-		
-	
-	
-
-
-	
 	exitLab:
 	return 0;
 
